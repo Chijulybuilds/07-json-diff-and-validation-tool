@@ -1,0 +1,12 @@
+{
+  "name": "json-diff-and-validation-tool",
+  "private": true,
+  "workspaces": [
+    "src/client"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=diffify",
+    "build": "npm run build --workspace=diffify",
+    "preview": "npm run preview --workspace=diffify"
+  }
+}

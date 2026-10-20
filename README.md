@@ -70,3 +70,16 @@ Render, Railway, Fly.io, Cloud Run, or Supabase for database features.
 - Improve test coverage and resilience
 - Add analytics, metrics, or observability
 - Expand functionality once the core MVP is stable
+
+## Run locally
+
+Requirements: Node.js 20 or newer.
+
+From the repository root, install dependencies and start the frontend development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Vite prints the local URL in the terminal (usually `http://localhost:5173`). The current MVP runs entirely in the browser; no backend or environment variables are required.
