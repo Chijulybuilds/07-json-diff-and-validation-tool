@@ -29,11 +29,11 @@ Each person owns one area, its implementation, and its tests. Owners should revi
 
 | Teammate | Area | Responsibilities | Definition of done |
 |---|---|---|---|
-| **1 — Comparison engine** | JSON comparison | Implement a deterministic comparison of two valid JSON values. Detect additions, removals, and changed values at nested object and array paths. Define and document the comparison result format with Teammates 3 and 4. | Unit tests cover identical inputs, nested changes, additions, removals, arrays, and root-level values. |
-| **2 — Schema validation** | JSON Schema validation | Validate a JSON value against a supplied schema using the agreed library. Normalize library-specific failures into the shared error format. Agree with Teammate 3 on request and response behavior. | Tests cover valid input, invalid input, invalid schema handling, and useful error paths/messages. |
-| **3 — Application/API integration** | Service boundary | Connect the comparison and validation services to the application flow. Parse and check requests, call the appropriate service, and return consistent success and error responses. Coordinate service contracts with Teammates 1 and 2. | Both core operations are callable through the agreed interface and reject malformed requests with clear errors. |
-| **4 — User interface** | User workflow | Build the input form/editor, compare and validate actions, and readable results for changes, validation issues, and request errors. Coordinate the result format with Teammates 1–3. | A user can complete both core workflows from input through result, including correcting an error and trying again. |
-| **5 — Quality, documentation, and demo** | End-to-end readiness | Define acceptance scenarios and representative JSON fixtures; add or coordinate end-to-end tests; verify setup instructions; prepare the demo flow and deployment checklist. Pair with owners to close test or integration gaps. | The documented setup works, acceptance scenarios pass, and a short demo shows both core workflows and at least one failure case. |
+| **1 — Comparison engine** - Buabee | JSON comparison | Implement a deterministic comparison of two valid JSON values. Detect additions, removals, and changed values at nested object and array paths. Define and document the comparison result format with Teammates 3 and 4. | Unit tests cover identical inputs, nested changes, additions, removals, arrays, and root-level values. |
+| **2 — Schema validation** - Theophilus  | JSON Schema validation | Validate a JSON value against a supplied schema using the agreed library. Normalize library-specific failures into the shared error format. Agree with Teammate 3 on request and response behavior. | Tests cover valid input, invalid input, invalid schema handling, and useful error paths/messages. |
+| **3 — Application/API integration** - Confidence| Service boundary | Connect the comparison and validation services to the application flow. Parse and check requests, call the appropriate service, and return consistent success and error responses. Coordinate service contracts with Teammates 1 and 2. | Both core operations are callable through the agreed interface and reject malformed requests with clear errors. |
+| **4 — User interface** - Prince Chinedu | User workflow | Build the input form/editor, compare and validate actions, and readable results for changes, validation issues, and request errors. Coordinate the result format with Teammates 1–3. | A user can complete both core workflows from input through result, including correcting an error and trying again. |
+| **5 — Quality, documentation, and demo** - Dede | End-to-end readiness | Define acceptance scenarios and representative JSON fixtures; add or coordinate end-to-end tests; verify setup instructions; prepare the demo flow and deployment checklist. Pair with owners to close test or integration gaps. | The documented setup works, acceptance scenarios pass, and a short demo shows both core workflows and at least one failure case. |
 
 Teammate 5 is not the sole tester: each feature owner writes tests for their area. Teammate 5 coordinates cross-feature coverage and readiness.
 
@@ -73,20 +73,56 @@ Return whether the data is valid and a list of validation issues. Each issue sho
 - Keep implementation details and raw stack traces out of user-facing messages.
 - Document how root paths and array paths are represented.
 
-## Suggested Repository Layout
+## Proposed Project Directory Structure
 
-Adapt names to the chosen language and framework; keep the ownership boundaries visible.
+The repository currently contains the README, this team plan, and `.gitignore`; the tree below is a proposed structure to build, not a description of files that already exist. It assumes a small web application with a browser UI and an API. The README does not choose a language or framework, so agree on those first and adapt file extensions, framework-specific folders, and configuration files to the chosen stack.
 
 ```text
-src/
-  comparison/       # comparison service
-  validation/       # schema validation service
-  api/              # request handling and shared error mapping
-  ui/               # user-facing inputs and results, if in this repository
-tests/
-  fixtures/         # reusable JSON and schema examples
-  integration/      # end-to-end or API acceptance tests
+json-diff-and-validation-tool/
+├── README.md
+├── shared.md
+├── .gitignore
+├── .env.example                 # Documented non-secret configuration, if needed
+├── <package-manager-manifest>  # e.g. package.json, pyproject.toml, or equivalent
+├── <tool-config-files>         # Formatter, linter, test runner, and build config
+├── public/                      # Static assets served directly to the browser
+│   └── assets/
+├── src/
+│   ├── client/                  # Teammate 4: browser-facing application
+│   │   ├── components/          # JSON editors, buttons, result panels, errors
+│   │   ├── pages/               # Main compare/validate screen
+│   │   ├── services/            # Client calls to the API
+│   │   └── styles/              # Application styles
+│   ├── server/                  # Teammate 3: application/API boundary
+│   │   ├── routes/              # Compare and validate endpoints
+│   │   ├── middleware/          # Request parsing and shared error handling
+│   │   └── app/                 # Server setup and route registration
+│   ├── services/
+│   │   ├── comparison/          # Teammate 1: recursive JSON comparison
+│   │   └── validation/          # Teammate 2: schema validation
+│   └── shared/                  # Contracts used by client, server, and tests
+│       ├── contracts/           # Request, response, and change definitions
+│       ├── errors/              # Stable error codes and response shape
+│       └── paths/               # JSON path formatting, if shared
+├── tests/
+│   ├── fixtures/                # Sample documents, schemas, and expected results
+│   ├── unit/
+│   │   ├── comparison/           # Comparison service tests
+│   │   └── validation/           # Validation service tests
+│   ├── integration/              # API and service integration tests
+│   └── e2e/                      # Complete user workflow tests
+└── docs/                         # Optional architecture or demo notes
 ```
+
+### Directory ownership and boundaries
+
+- **Teammate 1:** `src/services/comparison/` and `tests/unit/comparison/`.
+- **Teammate 2:** `src/services/validation/` and `tests/unit/validation/`.
+- **Teammate 3:** `src/server/`, shared error mapping, and `tests/integration/`.
+- **Teammate 4:** `src/client/` and `public/`.
+- **Teammate 5:** `tests/fixtures/`, `tests/e2e/`, setup/documentation review, and demo readiness. Every teammate remains responsible for tests in their own area.
+
+Keep shared contracts in `src/shared/`; agree on changes before updating them so the client and server stay compatible. Do not add a database directory or persistence layer for the initial stateless MVP. Add framework-specific entry points and configuration files at the repository root or in the relevant source folder once the stack is selected.
 
 ## Collaboration and Milestones
 
