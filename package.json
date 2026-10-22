@@ -8,5 +8,9 @@
     "dev": "npm run dev --workspace=diffify",
     "build": "npm run build --workspace=diffify",
     "preview": "npm run preview --workspace=diffify"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   }
 }
