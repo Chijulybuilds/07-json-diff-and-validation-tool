@@ -3,12 +3,13 @@ from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
 
 
+
 def validate_json(value, schema):
     """Validate a JSON value against a JSON Schema."""
 
-    # Check whether the schema itself is valid.
     try:
         Draft202012Validator.check_schema(schema)
+
     except SchemaError as exc:
         return {
             "success": False,
@@ -23,9 +24,10 @@ def validate_json(value, schema):
         }
 
     validator = Draft202012Validator(schema)
+
     errors = []
 
-    # Collect every validation error.AA
+    # Collect every validation error.
     for error in validator.iter_errors(value):
         path = "$"
 
@@ -42,8 +44,10 @@ def validate_json(value, schema):
                 })
 
                 # Return only after all errors have been collected.
-                return {
-                    "success": True,
-                    "valid": not errors,
-                    "errors": errors,
-                }
+    return {
+        "success": True,
+        "valid": not errors,
+        "errors": errors,
+    }
+
+
