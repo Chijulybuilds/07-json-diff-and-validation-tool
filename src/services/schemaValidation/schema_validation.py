@@ -2,20 +2,6 @@
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
 
-value = {
-    "name": "Theophilus",
-    "age": "30",
-    "city": "Port Harcourt",
-    "skills": ["Python", "Django"],
-    "is_employed": False
-}
-schema = {
-    "name": "Theophilus",
-    "age": 31,
-    "city": "Lagos",
-    "skills": ["Python", "Django", "Flask"],
-    "is_employed": True
-}
 
 def validate_json(value, schema):
     """Validate a JSON value against a JSON Schema."""
@@ -62,6 +48,5 @@ def validate_json(value, schema):
         "valid": not errors,
         "errors": errors,
     }
-print(validate_json(schema,value))    
 
 
