@@ -1,0 +1,17 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+
+# Environment variables and secrets
+.env
+
+# Editor settings
+.vscode/
+.idea/
