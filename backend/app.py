@@ -5,6 +5,7 @@ from database import get_connection, initialize_database
 
 app = Flask(__name__)
 CORS(app)
+initialize_database()
 
 
 @app.route("/", methods=["GET"])
